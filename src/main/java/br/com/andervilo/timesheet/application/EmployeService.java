@@ -35,12 +35,16 @@ public class EmployeService {
     }
 
     public EmployeDTO findById(String id) {
-        return employeRepository.findById(id)
-        .map(EmployeDTO::from).orElseThrow();
+        return employeRepository
+        .findById(id)
+        .map(EmployeDTO::from)
+        .orElseThrow();
     }
 
     public List<EmployeDTO> findAll() {
-        return employeRepository.findAll().stream()
+        return employeRepository
+        .findAll()
+        .stream()
         .map(EmployeDTO::from)
         .toList();
     }
