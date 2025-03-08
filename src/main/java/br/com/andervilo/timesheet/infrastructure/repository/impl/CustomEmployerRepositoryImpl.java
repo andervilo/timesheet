@@ -1,4 +1,4 @@
-package br.com.andervilo.timesheet.domain.repository.impl;
+package br.com.andervilo.timesheet.infrastructure.repository.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import br.com.andervilo.timesheet.application.query.EmployerFilterQuery;
 import br.com.andervilo.timesheet.domain.Employer;
-import br.com.andervilo.timesheet.domain.repository.CustomEmployerRepository;
+import br.com.andervilo.timesheet.infrastructure.repository.CustomEmployerRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

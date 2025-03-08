@@ -2,7 +2,6 @@ package br.com.andervilo.timesheet.application;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import br.com.andervilo.timesheet.application.command.EmployerCreateCommand;
@@ -11,7 +10,7 @@ import br.com.andervilo.timesheet.application.dto.EmployerDTO;
 import br.com.andervilo.timesheet.application.dto.PageDTO;
 import br.com.andervilo.timesheet.application.query.EmployerFilterQuery;
 import br.com.andervilo.timesheet.domain.Employer;
-import br.com.andervilo.timesheet.domain.repository.EmployerRepository;
+import br.com.andervilo.timesheet.infrastructure.repository.EmployerRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
