@@ -80,7 +80,8 @@ public class EmployeController {
         return ResponseEntity.ok(employeService.findAll());
     }
 
-    @Operation(summary = "Filter employees", description = "Retrieves a paginated list of employees based on filter criteria")
+    @Operation(summary = "Filter employees", description = "Retrieves a paginated list of employees based on filter criteria. " +
+            "You can filter by name, email, birth date range, or birth month (1-12 for January-December).")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Filtered list of employees retrieved successfully")
     })
