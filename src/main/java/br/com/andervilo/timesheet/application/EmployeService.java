@@ -30,8 +30,8 @@ public class EmployeService {
         return EmployeDTO.from(employeExisting);
     }
 
-    public String delete() {
-        return "delete";
+    public void delete(String id) {
+        employeRepository.deleteById(id);
     }
 
     public EmployeDTO findById(String id) {

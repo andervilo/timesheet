@@ -3,4 +3,4 @@ spring:
     name: timesheet
   data:
     mongodb:
-      uri: mongodb://localhost:27017/timesheet
+      uri: mongodb://admin:secret@localhost:27017/timesheet?authSource=admin
