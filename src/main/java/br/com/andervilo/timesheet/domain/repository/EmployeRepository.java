@@ -4,6 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import br.com.andervilo.timesheet.domain.Employe;
 
-public interface EmployeRepository extends MongoRepository<Employe, String> {
-
-}
+public interface EmployeRepository extends MongoRepository<Employe, String>, CustomEmployeRepository {
+} 

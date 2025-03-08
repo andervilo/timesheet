@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import br.com.andervilo.timesheet.application.command.EmployeCreateCommand;
 import br.com.andervilo.timesheet.application.command.EmployeUpdateCommand;
 import br.com.andervilo.timesheet.application.dto.EmployeDTO;
+import br.com.andervilo.timesheet.application.dto.PageDTO;
+import br.com.andervilo.timesheet.application.query.EmployeFilterQuery;
 import br.com.andervilo.timesheet.domain.Employe;
 import br.com.andervilo.timesheet.domain.repository.EmployeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +53,11 @@ public class EmployeService {
         .toList();
     }
 
+    public PageDTO<EmployeDTO> findWithFilters(EmployeFilterQuery filterQuery) {
+        var pageable = filterQuery.toPageable();
+        var page = employeRepository.findWithFilters(filterQuery, pageable);
+        
+        return PageDTO.from(page.map(EmployeDTO::from));
+    }
 
 }

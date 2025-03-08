@@ -8,6 +8,8 @@ import br.com.andervilo.timesheet.application.EmployeService;
 import br.com.andervilo.timesheet.application.command.EmployeCreateCommand;
 import br.com.andervilo.timesheet.application.command.EmployeUpdateCommand;
 import br.com.andervilo.timesheet.application.dto.EmployeDTO;
+import br.com.andervilo.timesheet.application.dto.PageDTO;
+import br.com.andervilo.timesheet.application.query.EmployeFilterQuery;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,5 +78,14 @@ public class EmployeController {
     @GetMapping
     public ResponseEntity<List<EmployeDTO>> findAll() {
         return ResponseEntity.ok(employeService.findAll());
+    }
+
+    @Operation(summary = "Filter employees", description = "Retrieves a paginated list of employees based on filter criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Filtered list of employees retrieved successfully")
+    })
+    @PostMapping("/filter")
+    public ResponseEntity<PageDTO<EmployeDTO>> filter(@RequestBody EmployeFilterQuery filterQuery) {
+        return ResponseEntity.ok(employeService.findWithFilters(filterQuery));
     }
 } 
