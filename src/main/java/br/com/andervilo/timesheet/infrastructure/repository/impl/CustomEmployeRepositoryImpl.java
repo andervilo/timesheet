@@ -26,7 +26,7 @@ public class CustomEmployeRepositoryImpl implements CustomEmployeRepository {
 
     @Override
     public Page<Employe> findWithFilters(EmployeFilterQuery filterQuery, Pageable pageable) {
-        Query query = filterQuery.toQuery();
+        Query query = toQuery(filterQuery);
         
         // Special handling for birth month filter
         if (filterQuery.getBirthMonth() != null && filterQuery.getBirthMonth() >= 1 && filterQuery.getBirthMonth() <= 12) {
@@ -39,6 +39,40 @@ public class CustomEmployeRepositoryImpl implements CustomEmployeRepository {
         List<Employe> employees = mongoTemplate.find(query, Employe.class);
         
         return new PageImpl<>(employees, pageable, total);
+    }
+    
+    private Query toQuery(EmployeFilterQuery filterQuery) {
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+
+        if (filterQuery.getName() != null && !filterQuery.getName().isEmpty()) {
+            criteria.and("name").regex(filterQuery.getName(), "i");
+        }
+
+        if (filterQuery.getEmail() != null && !filterQuery.getEmail().isEmpty()) {
+            criteria.and("email").regex(filterQuery.getEmail(), "i");
+        }
+
+        // Handle birth month filter
+        if (filterQuery.getBirthMonth() != null && filterQuery.getBirthMonth() >= 1 && filterQuery.getBirthMonth() <= 12) {
+            // MongoDB aggregation expression to extract month from birthDate
+            criteria.and("birthDate").exists(true);
+            criteria.orOperator(
+                Criteria.where("birthDate").regex("-" + String.format("%02d", filterQuery.getBirthMonth()) + "-", "i")
+            );
+        } else {
+            // Handle date range if birth month is not specified
+            if (filterQuery.getBirthDateStart() != null && filterQuery.getBirthDateEnd() != null) {
+                criteria.and("birthDate").gte(filterQuery.getBirthDateStart()).lte(filterQuery.getBirthDateEnd());
+            } else if (filterQuery.getBirthDateStart() != null) {
+                criteria.and("birthDate").gte(filterQuery.getBirthDateStart());
+            } else if (filterQuery.getBirthDateEnd() != null) {
+                criteria.and("birthDate").lte(filterQuery.getBirthDateEnd());
+            }
+        }
+
+        query.addCriteria(criteria);
+        return query;
     }
     
     private Page<Employe> findWithBirthMonthFilter(EmployeFilterQuery filterQuery, Pageable pageable) {
